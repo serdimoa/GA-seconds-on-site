@@ -1,0 +1,23 @@
+{
+  "name": "ga-seconds-on-site",
+  "version": "0.0.1",
+  "description": "check how much time user is work on site",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "start": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/serdimoa/GA-seconds-on-site.git"
+  },
+  "author": "SerDimoa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/serdimoa/GA-seconds-on-site/issues"
+  },
+  "homepage": "https://github.com/serdimoa/GA-seconds-on-site#readme",
+  "devDependencies": {
+    "typescript": "^3.5.1"
+  }
+}
