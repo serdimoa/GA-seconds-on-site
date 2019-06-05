@@ -21,17 +21,21 @@ interface Timers {
   [key: string]: number;
 }
 
+interface Events {
+  [key: string]: boolean;
+}
+
 interface IGaSecondsOnSite {
   activity: Activity[];
   lSkey?: string;
 }
-export class GaSecondsOnSite {
+export default class GaSecondsOnSite {
   watchEvery: number = 1000;
   lSkey: string;
   activity: Activity[] = [];
   timers: Timers = {};
   counters: Counters = {};
-  eventFlag: boolean = false;
+  eventFlag: Events = {};
   eventList = [
     "touchmove",
     "blur",
@@ -70,7 +74,12 @@ export class GaSecondsOnSite {
   }
 
   eventTrigger = () => {
-    this.eventFlag = true;
+    this.eventFlag = this.activity.reduce((events: Events, item: Activity) => {
+      return {
+        ...events,
+        [item.name]: true
+      };
+    }, {});
   };
 
   loadDataFromLS() {
@@ -94,33 +103,20 @@ export class GaSecondsOnSite {
   process() {
     this.addListenerMulti();
     this.loadDataFromLS();
+    this.eventTrigger();
     this.activity.forEach(item => {
       this.itemProcess(item);
     });
   }
-  writeDataToLs(item: Counter, name: string) {
-    const lsData = window.localStorage.getItem(this.lSkey);
-    if (lsData) {
-      const data: LsData = JSON.parse(lsData);
-      if (!data[name]) {
-        const newData = {
-          ...data,
-          [name]: item
-        };
-        window.localStorage.setItem(this.lSkey, JSON.stringify(newData));
-      } else {
-        window.localStorage.setItem(this.lSkey, JSON.stringify(this.counters));
-      }
-    } else {
-      window.localStorage.setItem(this.lSkey, JSON.stringify(this.counters));
-    }
+  writeDataToLs() {
+    window.localStorage.setItem(this.lSkey, JSON.stringify(this.counters));
   }
   itemProcess(item: Activity) {
     const counter = this.counters[item.name];
     counter.test += 1;
     if (counter.test === item.testPeriod) {
-      if (this.eventFlag) {
-        this.eventFlag = false;
+      if (this.eventFlag[item.name]) {
+        this.eventFlag[item.name] = false;
         counter.achiev += item.testPeriod;
       }
       counter.test = 0;
@@ -141,6 +137,6 @@ export class GaSecondsOnSite {
       }
     }
 
-    this.writeDataToLs(counter, item.name);
+    this.writeDataToLs();
   }
 }
