@@ -1,6 +1,6 @@
 {
   "name": "ga-seconds-on-site",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "check how much time user is work on site",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
