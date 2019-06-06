@@ -15,24 +15,27 @@ interface Counters {
 interface Timers {
     [key: string]: number;
 }
+interface Events {
+    [key: string]: boolean;
+}
 interface IGaSecondsOnSite {
     activity: Activity[];
     lSkey?: string;
 }
-export declare class GaSecondsOnSite {
+export default class GaSecondsOnSite {
     watchEvery: number;
     lSkey: string;
     activity: Activity[];
     timers: Timers;
     counters: Counters;
-    eventFlag: boolean;
+    eventFlag: Events;
     eventList: string[];
     constructor({ activity, lSkey }: IGaSecondsOnSite);
     addListenerMulti(): void;
     eventTrigger: () => void;
     loadDataFromLS(): void;
     process(): void;
-    writeDataToLs(item: Counter, name: string): void;
+    writeDataToLs(): void;
     itemProcess(item: Activity): void;
 }
 export {};
