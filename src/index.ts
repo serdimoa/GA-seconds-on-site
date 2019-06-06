@@ -29,7 +29,7 @@ interface IGaSecondsOnSite {
   activity: Activity[];
   lSkey?: string;
 }
-export default class GaSecondsOnSite {
+export class GaSecondsOnSite {
   watchEvery: number = 1000;
   lSkey: string;
   activity: Activity[] = [];
